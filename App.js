@@ -11,16 +11,47 @@ import {
 } from "react-native";
 import ToDo from "./ToDo";
 import { AppLoading } from "expo";
+import uuidv1 from "uuid/v1";
 
 const { height, width } = Dimensions.get("window");
+
+// Todo Description
+// 12314123123 = {
+//   id: 12314123123,
+//   text: 'test text',
+//   isCompleted: false,
+//   date:123141231231
+// }
 
 export default function App() {
   const [todo, setTodo] = useState("");
   const [loadedTodos, setLoadedTodos] = useState(false);
+  const [toDos, setTodos] = useState({});
 
   useEffect(() => {
     setLoadedTodos(true);
   }, []);
+
+  const addToDo = () => {
+    if (todo !== "") {
+      const ID = uuidv1();
+      const newTodoObject = {
+        [ID]: {
+          id: ID,
+          isCompleted: false,
+          text: todo,
+          createdAt: Date.now()
+        }
+      };
+      console.log(newTodoObject);
+
+      setTodos(todo);
+
+      console.log(toDos);
+
+      setTodo();
+    }
+  };
 
   if (!loadedTodos) {
     return <AppLoading />;
@@ -38,6 +69,7 @@ export default function App() {
           placeholderTextColor={"#999"}
           returnKeyType={"done"}
           autoCorrect={false}
+          onSubmitEditing={addToDo}
         />
         <ScrollView contentContainerStyle={styles.toDos} />
       </View>
