@@ -15,19 +15,50 @@ export default function ToDo() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => {
-          setIsCompleted(!isCompleted);
-        }}
-      >
-        <View
+      <View style={styles.column}>
+        <TouchableOpacity
+          onPress={() => {
+            setIsCompleted(!isCompleted);
+          }}
+        >
+          <View
+            style={[
+              styles.circle,
+              isCompleted ? styles.completedCircle : styles.uncompletedCircle
+            ]}
+          />
+        </TouchableOpacity>
+        <Text
           style={[
-            styles.circle,
-            isCompleted ? styles.completedCircle : styles.uncompletedCircle
+            styles.text,
+            isCompleted ? styles.completedText : styles.uncompletedText
           ]}
-        />
-      </TouchableOpacity>
-      <Text style={styles.text}>hello</Text>
+        >
+          hello~ Welcom!~
+        </Text>
+      </View>
+      {isEditing ? (
+        <View style={styles.actions}>
+          <TouchableOpacity onPress={() => setIsEditing(false)}>
+            <View style={styles.actionContainer}>
+              <Text style={styles.actionText}>✅</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.actions}>
+          <TouchableOpacity onPress={() => setIsEditing(true)}>
+            <View style={styles.actionContainer}>
+              <Text style={styles.actionText}>✏️</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={styles.actionContainer}>
+              <Text style={styles.actionText}>❌</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -38,7 +69,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#bbb",
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   circle: {
     width: 30,
@@ -58,5 +90,25 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 20,
     marginVertical: 20
+  },
+  completedText: {
+    color: "#bbb",
+    textDecorationLine: "line-through"
+  },
+  uncompletedText: {
+    color: "#353839"
+  },
+  column: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: width / 2,
+    justifyContent: "space-between"
+  },
+  actions: {
+    flexDirection: "row"
+  },
+  actionContainer: {
+    marginVertical: 10,
+    marginHorizontal: 10
   }
 });
