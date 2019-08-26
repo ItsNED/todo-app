@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, Platform, ScrollView } from 'react-native';
-import ToDo from './ToDo';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  TextInput,
+  Dimensions,
+  Platform,
+  ScrollView
+} from "react-native";
+import ToDo from "./ToDo";
 
-const { height, width } = Dimensions.get("window")
+const { height, width } = Dimensions.get("window");
 
 export default function App() {
   const [todo, setTodo] = useState("");
@@ -11,12 +20,17 @@ export default function App() {
       <StatusBar barStyle="light-content" />
       <Text style={styles.title}>Awsome Todo</Text>
       <View style={styles.card}>
-        <TextInput style={styles.input} placeholder={"New To Do"}
-          value={todo} onChangeText={(text) => setTodo(text)}
-          placeholderTextColor={"#999"} returnKeytype={"done"}
-          autoCorrect={false} />
+        <TextInput
+          style={styles.input}
+          placeholder={"New To Do"}
+          value={todo}
+          onChangeText={text => setTodo(text)}
+          placeholderTextColor={"#999"}
+          returnKeyType={"done"}
+          autoCorrect={false}
+        />
         <ScrollView contentContainerStyle={styles.toDos}>
-          <ToDo />
+          <ToDo text={"I'm Awewome"} />
         </ScrollView>
       </View>
     </View>
@@ -26,8 +40,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f23657',
-    alignItems: 'center',
+    backgroundColor: "#f23657",
+    alignItems: "center"
   },
   title: {
     color: "white",

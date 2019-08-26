@@ -4,14 +4,16 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  TextInput
 } from "react-native";
 
 const { height, width } = Dimensions.get("window");
 
-export default function ToDo() {
+export default function ToDo({ text }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [todo, setTodo] = useState("");
 
   return (
     <View style={styles.container}>
@@ -28,14 +30,32 @@ export default function ToDo() {
             ]}
           />
         </TouchableOpacity>
-        <Text
-          style={[
-            styles.text,
-            isCompleted ? styles.completedText : styles.uncompletedText
-          ]}
-        >
-          hello~ Welcom!~
-        </Text>
+        {isEditing ? (
+          <TextInput
+            style={[
+              styles.text,
+              styles.input,
+              isCompleted ? styles.completedText : styles.uncompletedText
+            ]}
+            value={todo}
+            multiline={true}
+            onChangeText={text => setTodo(text)}
+            returnKeyType={"done"}
+            autoCorrect={false}
+            onBlur={() => {
+              setIsEditing(false);
+            }}
+          />
+        ) : (
+          <Text
+            style={[
+              styles.text,
+              isCompleted ? styles.completedText : styles.uncompletedText
+            ]}
+          >
+            {text}
+          </Text>
+        )}
       </View>
       {isEditing ? (
         <View style={styles.actions}>
@@ -47,7 +67,12 @@ export default function ToDo() {
         </View>
       ) : (
         <View style={styles.actions}>
-          <TouchableOpacity onPress={() => setIsEditing(true)}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsEditing(true);
+              setTodo(text);
+            }}
+          >
             <View style={styles.actionContainer}>
               <Text style={styles.actionText}>✏️</Text>
             </View>
@@ -76,7 +101,6 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    borderColor: "red",
     borderWidth: 3,
     marginRight: 20
   },
@@ -101,8 +125,8 @@ const styles = StyleSheet.create({
   column: {
     flexDirection: "row",
     alignItems: "center",
-    width: width / 2,
-    justifyContent: "space-between"
+    width: width / 2
+    // justifyContent: "space-between"
   },
   actions: {
     flexDirection: "row"
@@ -110,5 +134,10 @@ const styles = StyleSheet.create({
   actionContainer: {
     marginVertical: 10,
     marginHorizontal: 10
+  },
+  input: {
+    width: width / 2,
+    marginVertical: 15,
+    paddingBottom: 5
   }
 });
