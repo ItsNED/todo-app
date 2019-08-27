@@ -40,6 +40,11 @@ export default function App() {
     }
   };
 
+  const deleteDoDo = id => {
+    delete toDos[id];
+    setTodos({ ...toDos });
+  };
+
   if (!loadedTodos) {
     return <AppLoading />;
   }
@@ -62,7 +67,7 @@ export default function App() {
           {/* <ToDo text="hello" /> */}
           {Object.values(toDos).map(toDo => {
             console.log("id: " + toDo.id + " text: " + toDo.text);
-            return <ToDo key={toDo.id} text={toDo.text} />;
+            return <ToDo key={toDo.id} {...toDo} deleteToDo={deleteDoDo} />;
           })}
         </ScrollView>
       </View>

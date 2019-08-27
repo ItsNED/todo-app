@@ -7,12 +7,13 @@ import {
   Dimensions,
   TextInput
 } from "react-native";
+import PropTypes from "prop-types";
 
 const { height, width } = Dimensions.get("window");
 
-export default function ToDo({ text }) {
+export default function ToDo({ text, isCompleted, id, deleteToDo }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [completed, setCompleted] = useState(isCompleted);
   const [todo, setTodo] = useState("");
 
   return (
@@ -20,13 +21,13 @@ export default function ToDo({ text }) {
       <View style={styles.column}>
         <TouchableOpacity
           onPress={() => {
-            setIsCompleted(!isCompleted);
+            setCompleted(!completed);
           }}
         >
           <View
             style={[
               styles.circle,
-              isCompleted ? styles.completedCircle : styles.uncompletedCircle
+              completed ? styles.completedCircle : styles.uncompletedCircle
             ]}
           />
         </TouchableOpacity>
@@ -35,7 +36,7 @@ export default function ToDo({ text }) {
             style={[
               styles.text,
               styles.input,
-              isCompleted ? styles.completedText : styles.uncompletedText
+              completed ? styles.completedText : styles.uncompletedText
             ]}
             value={todo}
             multiline={true}
@@ -50,7 +51,7 @@ export default function ToDo({ text }) {
           <Text
             style={[
               styles.text,
-              isCompleted ? styles.completedText : styles.uncompletedText
+              completed ? styles.completedText : styles.uncompletedText
             ]}
           >
             {text}
@@ -77,7 +78,7 @@ export default function ToDo({ text }) {
               <Text style={styles.actionText}>✏️</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => deleteToDo(id)}>
             <View style={styles.actionContainer}>
               <Text style={styles.actionText}>❌</Text>
             </View>
@@ -87,6 +88,13 @@ export default function ToDo({ text }) {
     </View>
   );
 }
+
+ToDo.propTypes = {
+  text: PropTypes.string.isRequired,
+  isCompleted: PropTypes.bool.isRequired,
+  deleteToDo: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired
+};
 
 const styles = StyleSheet.create({
   container: {
