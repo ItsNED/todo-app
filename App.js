@@ -45,13 +45,21 @@ export default function App() {
     setTodos({ ...toDos });
   };
 
+  const uncompleteToDo = id => {
+    setTodos({ ...toDos, [id]: { ...toDos[id], isCompleted: false } });
+  };
+
+  const completeTodo = id => {
+    setTodos({ ...toDos, [id]: { ...toDos[id], isCompleted: true } });
+  };
+
   if (!loadedTodos) {
     return <AppLoading />;
   }
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <Text style={styles.title}>Awsome Todo</Text>
+      <Text style={styles.title}>Awesome Todo</Text>
       <View style={styles.card}>
         <TextInput
           style={styles.input}
@@ -66,8 +74,16 @@ export default function App() {
         <ScrollView contentContainerStyle={styles.toDos}>
           {/* <ToDo text="hello" /> */}
           {Object.values(toDos).map(toDo => {
-            console.log("id: " + toDo.id + " text: " + toDo.text);
-            return <ToDo key={toDo.id} {...toDo} deleteToDo={deleteDoDo} />;
+            // console.log("id: " + toDo.id + " text: " + toDo.text);
+            return (
+              <ToDo
+                key={toDo.id}
+                deleteToDo={deleteDoDo}
+                uncompleteToDo={uncompleteToDo}
+                completeTodo={completeTodo}
+                {...toDo}
+              />
+            );
           })}
         </ScrollView>
       </View>

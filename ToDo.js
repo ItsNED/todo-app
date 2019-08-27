@@ -11,23 +11,37 @@ import PropTypes from "prop-types";
 
 const { height, width } = Dimensions.get("window");
 
-export default function ToDo({ text, isCompleted, id, deleteToDo }) {
+export default function ToDo({
+  text,
+  isCompleted,
+  id,
+  deleteToDo,
+  uncompleteToDo,
+  completeTodo
+}) {
   const [isEditing, setIsEditing] = useState(false);
-  const [completed, setCompleted] = useState(isCompleted);
+  // const [completed, setCompleted] = useState(isCompleted);
   const [todo, setTodo] = useState("");
 
+  console.log(text, isCompleted, id);
   return (
     <View style={styles.container}>
       <View style={styles.column}>
         <TouchableOpacity
           onPress={() => {
-            setCompleted(!completed);
+            console.log("toggleComplete");
+            // TODO: ToDo 가 2개 이상일 때 순서가 바뀌는 문제 수정
+            if (isCompleted) {
+              uncompleteToDo(id);
+            } else {
+              completeTodo(id);
+            }
           }}
         >
           <View
             style={[
               styles.circle,
-              completed ? styles.completedCircle : styles.uncompletedCircle
+              isCompleted ? styles.completedCircle : styles.uncompletedCircle
             ]}
           />
         </TouchableOpacity>
@@ -36,7 +50,7 @@ export default function ToDo({ text, isCompleted, id, deleteToDo }) {
             style={[
               styles.text,
               styles.input,
-              completed ? styles.completedText : styles.uncompletedText
+              isCompleted ? styles.completedText : styles.uncompletedText
             ]}
             value={todo}
             multiline={true}
@@ -51,7 +65,7 @@ export default function ToDo({ text, isCompleted, id, deleteToDo }) {
           <Text
             style={[
               styles.text,
-              completed ? styles.completedText : styles.uncompletedText
+              isCompleted ? styles.completedText : styles.uncompletedText
             ]}
           >
             {text}
@@ -93,7 +107,9 @@ ToDo.propTypes = {
   text: PropTypes.string.isRequired,
   isCompleted: PropTypes.bool.isRequired,
   deleteToDo: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  uncompleteToDo: PropTypes.func.isRequired,
+  completeTodo: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
