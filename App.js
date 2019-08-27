@@ -15,14 +15,6 @@ import uuidv1 from "uuid/v1";
 
 const { height, width } = Dimensions.get("window");
 
-// Todo Description
-// 12314123123 = {
-//   id: 12314123123,
-//   text: 'test text',
-//   isCompleted: false,
-//   date:123141231231
-// }
-
 export default function App() {
   const [todo, setTodo] = useState("");
   const [loadedTodos, setLoadedTodos] = useState(false);
@@ -43,13 +35,8 @@ export default function App() {
           createdAt: Date.now()
         }
       };
-      console.log(newTodoObject);
-
-      setTodos(todo);
-
-      console.log(toDos);
-
-      setTodo();
+      setTodos({ ...toDos, ...newTodoObject });
+      setTodo("");
     }
   };
 
@@ -71,7 +58,13 @@ export default function App() {
           autoCorrect={false}
           onSubmitEditing={addToDo}
         />
-        <ScrollView contentContainerStyle={styles.toDos} />
+        <ScrollView contentContainerStyle={styles.toDos}>
+          {/* <ToDo text="hello" /> */}
+          {Object.values(toDos).map(toDo => {
+            console.log("id: " + toDo.id + " text: " + toDo.text);
+            return <ToDo key={toDo.id} text={toDo.text} />;
+          })}
+        </ScrollView>
       </View>
     </View>
   );
