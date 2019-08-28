@@ -73,18 +73,24 @@ export default function App() {
         />
         <ScrollView contentContainerStyle={styles.toDos}>
           {/* <ToDo text="hello" /> */}
-          {Object.values(toDos).map(toDo => {
-            // console.log("id: " + toDo.id + " text: " + toDo.text);
-            return (
-              <ToDo
-                key={toDo.id}
-                deleteToDo={deleteDoDo}
-                uncompleteToDo={uncompleteToDo}
-                completeTodo={completeTodo}
-                {...toDo}
-              />
-            );
-          })}
+          {Object.values(toDos)
+            .sort((a, b) => {
+              dateA = a.createdAt;
+              dateB = b.createdAt;
+              return dateB - dateA;
+            })
+            .map(toDo => {
+              // console.log("id: " + toDo.id + " text: " + toDo.text);
+              return (
+                <ToDo
+                  key={toDo.id}
+                  deleteToDo={deleteDoDo}
+                  uncompleteToDo={uncompleteToDo}
+                  completeTodo={completeTodo}
+                  {...toDo}
+                />
+              );
+            })}
         </ScrollView>
       </View>
     </View>
