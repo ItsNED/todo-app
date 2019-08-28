@@ -21,10 +21,7 @@ export default function ToDo({
   updateTodo
 }) {
   const [isEditing, setIsEditing] = useState(false);
-  // const [completed, setCompleted] = useState(isCompleted);
-  const [todo, setTodo] = useState("");
-
-  console.log(text, isCompleted, id);
+  const [todo, setTodo] = useState(text);
   return (
     <View style={styles.container}>
       <View style={styles.column}>
@@ -54,6 +51,7 @@ export default function ToDo({
             value={todo}
             multiline={true}
             onChangeText={text => {
+              console.log(text);
               setTodo(text);
               updateTodo(id, text);
             }}
@@ -61,6 +59,7 @@ export default function ToDo({
             returnKeyType="default"
             autoCorrect={false}
             onBlur={() => {
+              console.log("blur");
               setIsEditing(false);
             }}
           />

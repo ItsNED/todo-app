@@ -7,13 +7,15 @@ import {
   TextInput,
   Dimensions,
   Platform,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import ToDo from "./ToDo";
 import { AppLoading } from "expo";
 import uuidv1 from "uuid/v1";
 
 const { height, width } = Dimensions.get("window");
+let DATA_KEY = "key_todos";
 
 export default function App() {
   const [todo, setTodo] = useState("");
@@ -21,8 +23,23 @@ export default function App() {
   const [toDos, setTodos] = useState({});
 
   useEffect(() => {
-    setLoadedTodos(true);
+    loadDataFromStorage();
+    // setLoadedTodos(true);
   }, []);
+
+  const loadDataFromStorage = async () => {
+    try {
+      const data = await AsyncStorage.getItem(DATA_KEY);
+      if (data) {
+        const parsedData = JSON.parse(data);
+        setTodos(parsedData);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadedTodos(true);
+    }
+  };
 
   const addToDo = () => {
     if (todo !== "") {
@@ -37,24 +54,34 @@ export default function App() {
       };
       setTodos({ ...toDos, ...newTodoObject });
       setTodo("");
+      saveTodosToStorage();
     }
   };
 
   const deleteDoDo = id => {
     delete toDos[id];
     setTodos({ ...toDos });
+    saveTodosToStorage();
   };
 
   const uncompleteToDo = id => {
     setTodos({ ...toDos, [id]: { ...toDos[id], isCompleted: false } });
+    saveTodosToStorage();
   };
 
   const completeTodo = id => {
     setTodos({ ...toDos, [id]: { ...toDos[id], isCompleted: true } });
+    saveTodosToStorage();
   };
 
   const updateTodo = (id, text) => {
     setTodos({ ...toDos, [id]: { ...toDos[id], text: text } });
+    saveTodosToStorage();
+  };
+
+  const saveTodosToStorage = () => {
+    const serializedTodos = JSON.stringify(toDos);
+    AsyncStorage.setItem(DATA_KEY, serializedTodos);
   };
 
   if (!loadedTodos) {
