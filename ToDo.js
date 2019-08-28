@@ -17,7 +17,8 @@ export default function ToDo({
   id,
   deleteToDo,
   uncompleteToDo,
-  completeTodo
+  completeTodo,
+  updateTodo
 }) {
   const [isEditing, setIsEditing] = useState(false);
   // const [completed, setCompleted] = useState(isCompleted);
@@ -29,8 +30,6 @@ export default function ToDo({
       <View style={styles.column}>
         <TouchableOpacity
           onPress={() => {
-            console.log("toggleComplete");
-            // TODO: ToDo 가 2개 이상일 때 순서가 바뀌는 문제 수정
             if (isCompleted) {
               uncompleteToDo(id);
             } else {
@@ -54,8 +53,12 @@ export default function ToDo({
             ]}
             value={todo}
             multiline={true}
-            onChangeText={text => setTodo(text)}
-            returnKeyType={"done"}
+            onChangeText={text => {
+              setTodo(text);
+              updateTodo(id, text);
+            }}
+            autoFocus={true}
+            returnKeyType="default"
             autoCorrect={false}
             onBlur={() => {
               setIsEditing(false);
@@ -109,7 +112,8 @@ ToDo.propTypes = {
   deleteToDo: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   uncompleteToDo: PropTypes.func.isRequired,
-  completeTodo: PropTypes.func.isRequired
+  completeTodo: PropTypes.func.isRequired,
+  updateTodo: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({

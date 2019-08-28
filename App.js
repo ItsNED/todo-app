@@ -53,6 +53,10 @@ export default function App() {
     setTodos({ ...toDos, [id]: { ...toDos[id], isCompleted: true } });
   };
 
+  const updateTodo = (id, text) => {
+    setTodos({ ...toDos, [id]: { ...toDos[id], text: text } });
+  };
+
   if (!loadedTodos) {
     return <AppLoading />;
   }
@@ -87,6 +91,7 @@ export default function App() {
                   deleteToDo={deleteDoDo}
                   uncompleteToDo={uncompleteToDo}
                   completeTodo={completeTodo}
+                  updateTodo={updateTodo}
                   {...toDo}
                 />
               );
