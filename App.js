@@ -21,11 +21,19 @@ export default function App() {
   const [todo, setTodo] = useState("");
   const [loadedTodos, setLoadedTodos] = useState(false);
   const [toDos, setTodos] = useState({});
+  const [isFirst, setIsFirst] = useState(true);
 
   useEffect(() => {
+    // console.log("useEffect");
     loadDataFromStorage();
-    // setLoadedTodos(true);
   }, []);
+
+  useEffect(() => {
+    // To save toDos into storage when it changed
+    console.log("update");
+
+    saveTodosToStorage();
+  }, [toDos]);
 
   const loadDataFromStorage = async () => {
     try {
@@ -54,29 +62,25 @@ export default function App() {
       };
       setTodos({ ...toDos, ...newTodoObject });
       setTodo("");
-      saveTodosToStorage();
+      // saveTodosToStorage();
     }
   };
 
   const deleteDoDo = id => {
     delete toDos[id];
     setTodos({ ...toDos });
-    saveTodosToStorage();
   };
 
   const uncompleteToDo = id => {
     setTodos({ ...toDos, [id]: { ...toDos[id], isCompleted: false } });
-    saveTodosToStorage();
   };
 
   const completeTodo = id => {
     setTodos({ ...toDos, [id]: { ...toDos[id], isCompleted: true } });
-    saveTodosToStorage();
   };
 
   const updateTodo = (id, text) => {
     setTodos({ ...toDos, [id]: { ...toDos[id], text: text } });
-    saveTodosToStorage();
   };
 
   const saveTodosToStorage = () => {

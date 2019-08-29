@@ -51,15 +51,16 @@ export default function ToDo({
             value={todo}
             multiline={true}
             onChangeText={text => {
-              console.log(text);
+              // console.log(text);
               setTodo(text);
-              updateTodo(id, text);
+              // updateTodo(id, text);
             }}
             autoFocus={true}
             returnKeyType="default"
             autoCorrect={false}
             onBlur={() => {
               console.log("blur");
+              updateTodo(id, todo);
               setIsEditing(false);
             }}
           />
@@ -76,7 +77,12 @@ export default function ToDo({
       </View>
       {isEditing ? (
         <View style={styles.actions}>
-          <TouchableOpacity onPress={() => setIsEditing(false)}>
+          <TouchableOpacity
+            onPressOut={() => {
+              updateTodo(id, todo);
+              setIsEditing(false);
+            }}
+          >
             <View style={styles.actionContainer}>
               <Text style={styles.actionText}>✅</Text>
             </View>
@@ -85,7 +91,7 @@ export default function ToDo({
       ) : (
         <View style={styles.actions}>
           <TouchableOpacity
-            onPress={() => {
+            onPressOut={() => {
               setIsEditing(true);
               setTodo(text);
             }}
@@ -94,7 +100,7 @@ export default function ToDo({
               <Text style={styles.actionText}>✏️</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => deleteToDo(id)}>
+          <TouchableOpacity onPressOut={() => deleteToDo(id)}>
             <View style={styles.actionContainer}>
               <Text style={styles.actionText}>❌</Text>
             </View>
