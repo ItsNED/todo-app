@@ -59,6 +59,7 @@ export default function ToDo({
             autoFocus={true}
             returnKeyType="default"
             autoCorrect={false}
+            underlineColorAndroid={"transparent"}
             onBlur={() => {
               console.log("blur");
               updateTodo(id, todo);
