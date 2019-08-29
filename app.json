@@ -18,7 +18,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.test.awesometodoios"
+    },
+    "android": {
+      "package": "com.test.awesometodo"
     }
   }
 }
