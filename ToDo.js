@@ -26,7 +26,8 @@ export default function ToDo({
     <View style={styles.container}>
       <View style={styles.column}>
         <TouchableOpacity
-          onPress={() => {
+          onPress={event => {
+            event.stopPropagation();
             if (isCompleted) {
               uncompleteToDo(id);
             } else {
@@ -78,7 +79,8 @@ export default function ToDo({
       {isEditing ? (
         <View style={styles.actions}>
           <TouchableOpacity
-            onPressOut={() => {
+            onPressOut={event => {
+              event.stopPropagation();
               updateTodo(id, todo);
               setIsEditing(false);
             }}
@@ -91,7 +93,8 @@ export default function ToDo({
       ) : (
         <View style={styles.actions}>
           <TouchableOpacity
-            onPressOut={() => {
+            onPressOut={event => {
+              event.stopPropagation();
               setIsEditing(true);
               setTodo(text);
             }}
@@ -100,7 +103,12 @@ export default function ToDo({
               <Text style={styles.actionText}>✏️</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPressOut={() => deleteToDo(id)}>
+          <TouchableOpacity
+            onPressOut={event => {
+              event.stopPropagation();
+              deleteToDo(id);
+            }}
+          >
             <View style={styles.actionContainer}>
               <Text style={styles.actionText}>❌</Text>
             </View>
