@@ -105,6 +105,7 @@ export default function App() {
           returnKeyType={"done"}
           autoCorrect={false}
           onSubmitEditing={addToDo}
+          underlineColorAndroid={"transparent"}
         />
         <ScrollView contentContainerStyle={styles.toDos}>
           {/* <ToDo text="hello" /> */}
